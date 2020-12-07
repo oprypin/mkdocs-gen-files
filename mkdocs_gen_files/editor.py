@@ -73,9 +73,9 @@ class FilesEditor:
         if cls._current:
             return cls._current
         if not cls._default:
-            cls._default = FilesEditor(
-                mkdocs.structure.files.Files([]), mkdocs.config.load_config("mkdocs.yml")
-            )
+            config = mkdocs.config.load_config("mkdocs.yml")
+            config["plugins"].run_event("config", config)
+            cls._default = FilesEditor(mkdocs.structure.files.Files([]), config)
         return cls._default
 
     def __enter__(self):
