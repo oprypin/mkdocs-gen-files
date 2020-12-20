@@ -24,6 +24,7 @@ jobs:
       - name: Download source
         uses: actions/checkout@v2
       - name: Install Python
+        id: python
         uses: actions/setup-python@v2
         with:
           python-version: ${{matrix.python}}
@@ -31,8 +32,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: .venv
-          key: venv-${{matrix.os}}-py${{matrix.python}}-${{hashFiles('pyproject.toml')}}
-          restore-keys: venv-${{matrix.os}}-py${{matrix.python}}-
+          key: venv-${{matrix.os}}-py${{steps.python.outputs.python-version}}-${{hashFiles('pyproject.toml')}}
+          restore-keys: venv-${{matrix.os}}-py${{steps.python.outputs.python-version}}-
       - name: Create virtualenv
         run: |
           python -m venv .venv
