@@ -1,0 +1,41 @@
+.highlight .gp { /* Generic.Prompt */
+  user-select: none;
+}
+
+.doc-heading code {
+  font-family: inherit !important;
+  font-size: inherit;
+}
+
+/* https://pawamoy.github.io/mkdocstrings/handlers/python/#recommended-style-material */
+
+.doc-contents th, .doc-contents td {
+  padding: 0.5em 0.8em !important;
+}
+
+div.doc-contents:not(.first) {
+  padding-left: 15px;
+  border-left: 4px solid rgba(230, 230, 230);
+}
+
+h5.doc-heading {
+  text-transform: none !important;
+}
+
+.hidden-toc::before {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+.hidden-toc a.headerlink {
+  display: none;
+}
+
+td code {
+  word-break: normal !important;
+}
+
+td p {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}

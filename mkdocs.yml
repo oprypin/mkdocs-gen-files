@@ -1,0 +1,41 @@
+site_name: mkdocs-gen-files
+site_url: "https://oprypin.github.io/mkdocs-gen-files"
+repo_url: "https://github.com/oprypin/mkdocs-gen-files"
+edit_uri: blob/master/docs/
+use_directory_urls: false
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    primary: teal
+    accent: purple
+
+extra_css:
+  - css/style.css
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_pages.py
+  - mkdocstrings:
+      watch: [mkdocs_gen_files]
+      handlers:
+        python:
+          rendering:
+            show_signature_annotations: true
+            show_source: false
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.snippets:
+      check_paths: true
+  - admonition
+  - def_list
+  - toc:
+      permalink: "#"

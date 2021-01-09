@@ -1,0 +1,25 @@
+name: Deploy docs
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 6'
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+      - name: Install dependencies
+        run: pip install . -r docs/requirements.txt
+      - name: Build site
+        run: mkdocs build
+      - name: Deploy to gh-pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        uses: oprypin/push-to-gh-pages@v3
+        with:
+          publish_dir: site
+          commit_message: 'Generate docs: '

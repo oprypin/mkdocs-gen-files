@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import collections
 import os
 import os.path
@@ -21,14 +19,21 @@ def _file_sort_key(f: mkdocs.structure.files.File):
 
 
 class FilesEditor:
+    config: mkdocs.config.Config = None
+    """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
+    directory: str = None
+    """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
+
     def open(self, name: str, mode="a", buffering=-1, encoding="utf-8", *args, **kwargs) -> IO:
+        """Open a file under `docs_dir` virtually.
+
+        This function, for all intents and purposes, is just an `open()` which pretends that it is
+        running under [docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir)
+        (*docs/* by default), but write operations don't affect the actual files when running as
+        part of a MkDocs build, but they do become part of the site build.
+        """
         path = self._get_file(name, new="w" in mode)
         return open(path, mode, buffering, encoding, *args, **kwargs)
-
-    @property
-    def files(self) -> mkdocs.structure.files.Files:
-        files = sorted(self._files.values(), key=_file_sort_key)
-        return mkdocs.structure.files.Files(files)
 
     def _get_file(self, name: str, new: bool = False) -> str:
         new_f = mkdocs.structure.files.File(
@@ -69,7 +74,17 @@ class FilesEditor:
     _default: ClassVar[Optional["FilesEditor"]] = None
 
     @classmethod
-    def current(cls) -> FilesEditor:
+    def current(cls) -> "FilesEditor":
+        """The instance of FilesEditor associated with the currently ongoing MkDocs build.
+
+        If this used as part of a MkDocs build (*gen-files* plugin), it's an instance using virtual
+        files that feed back into the build.
+
+        If not, this still tries to load the MkDocs config to find out the *docs_dir*, and then
+        actually performs any file writes that happen via `.open()`.
+
+        This is global (not thread-safe).
+        """
         if cls._current:
             return cls._current
         if not cls._default:
@@ -84,3 +99,12 @@ class FilesEditor:
 
     def __exit__(self, *exc):
         type(self)._current = None
+
+    @property
+    def files(self) -> mkdocs.structure.files.Files:
+        """Access the files as they currently are, as a MkDocs [Files][] collection.
+
+        [Files]: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/structure/files.py
+        """
+        files = sorted(self._files.values(), key=_file_sort_key)
+        return mkdocs.structure.files.Files(files)
