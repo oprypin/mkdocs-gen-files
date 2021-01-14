@@ -77,7 +77,7 @@ class FilesEditor:
     def current(cls) -> "FilesEditor":
         """The instance of FilesEditor associated with the currently ongoing MkDocs build.
 
-        If this used as part of a MkDocs build (*gen-files* plugin), it's an instance using virtual
+        If used as part of a MkDocs build (*gen-files* plugin), it's an instance using virtual
         files that feed back into the build.
 
         If not, this still tries to load the MkDocs config to find out the *docs_dir*, and then
