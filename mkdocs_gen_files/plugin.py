@@ -6,6 +6,11 @@ import mkdocs.config.config_options
 import mkdocs.plugins
 import mkdocs.structure.files
 
+try:
+    from mkdocs.exceptions import PluginError
+except ImportError:
+    PluginError = SystemExit
+
 from . import editor
 
 
@@ -17,7 +22,11 @@ class GenFilesPlugin(mkdocs.plugins.BasePlugin):
 
         with editor.FilesEditor(files, config, self._dir.name) as ed:
             for file_name in self.config["scripts"]:
-                runpy.run_path(file_name)
+                try:
+                    runpy.run_path(file_name)
+                except SystemExit as e:
+                    if e.code:
+                        raise PluginError(f"Script {file_name!r} caused {e!r}")
 
         return ed.files
 
