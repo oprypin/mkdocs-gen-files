@@ -23,7 +23,7 @@ Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python sc
 ```yaml
 plugins:
   - search
-  - mkdocs-gen-files:
+  - gen-files:
       scripts:
         - gen_pages.py  # or any other name or path
 ```
