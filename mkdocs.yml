@@ -1,4 +1,4 @@
-site_name: mkdocs-gen-files
+site_name: MkDocs Plugins
 site_url: "https://oprypin.github.io/mkdocs-gen-files"
 repo_url: "https://github.com/oprypin/mkdocs-gen-files"
 edit_uri: blob/master/docs/
@@ -6,6 +6,8 @@ use_directory_urls: false
 
 theme:
   name: material
+  features:
+    - navigation.tabs
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -13,13 +15,18 @@ theme:
     accent: purple
 
 extra_css:
-  - css/style.css
+  - assets/style.css
+extra_javascript:
+  - assets/script.js
 
 plugins:
   - search
   - gen-files:
       scripts:
         - docs/gen_pages.py
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
   - mkdocstrings:
       watch: [mkdocs_gen_files]
       handlers:
