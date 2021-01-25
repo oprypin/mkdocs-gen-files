@@ -29,7 +29,7 @@ Then create such a script *gen_pages.py* (this is relative to the root, *not* to
     ```python
     import mkdocs_gen_files
 
-    with mkdocs_gen_files.open("foo.md") as f:
+    with mkdocs_gen_files.open("foo.md", "w") as f:
         print("Hello, world!", file=f)
     ```
 

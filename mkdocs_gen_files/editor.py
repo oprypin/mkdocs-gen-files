@@ -24,7 +24,7 @@ class FilesEditor:
     directory: str = None
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
 
-    def open(self, name: str, mode="a", buffering=-1, encoding="utf-8", *args, **kwargs) -> IO:
+    def open(self, name: str, mode, buffering=-1, encoding="utf-8", *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
 
         This function, for all intents and purposes, is just an `open()` which pretends that it is
