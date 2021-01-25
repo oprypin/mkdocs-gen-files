@@ -42,6 +42,14 @@ Or something a bit more interesting:
 
 This adds programmatically generated pages to our site. This example script has been applied to this very site, you can see [sample/99-bottles.md](sample/99-bottles.md) etc.
 
+### Use cases
+
+You might be wondering, what's the point of this?
+
+The original use case was [with mkdocstrings](https://pawamoy.github.io/mkdocstrings/usage/) - [generating pages with just stubs](https://oprypin.github.io/mkdocstrings-crystal/quickstart/migrate.html#generate-doc-stub-pages) for each item in API documentation, so that they can be populated by the tools.
+
+You can also modify all existing files on the site in some way. Or perhaps copy files from somewhere on the fly.
+
 ## Description
 
 For all intents and purposes, please conceptualize the [`mkdocs_gen_files.open()`](api.md) function as the actual [`open()`](https://docs.python.org/3/library/functions.html#open) function running under the [docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir) (*./docs/* by default, picked up from *mkdocs.yml*). In fact, if a script using *mkdocs_gen_files* is launched standalone, that is *actually* the case; you can use that to try out how the results look (though manual cleanup will be required).
