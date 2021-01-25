@@ -1,7 +1,0 @@
-* [mkdocstrings-crystal](https://oprypin.github.io/mkdocstrings-crystal/)
-* [section-index](https://oprypin.github.io/mkdocs-section-index/)
-* [literate-nav](https://oprypin.github.io/mkdocs-literate-nav/)
-* [gen-files](index.md)
-    * [API](api.md)
-    * [Sample](sample/)
-* [same-dir](https://oprypin.github.io/mkdocs-same-dir/)

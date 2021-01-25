@@ -24,8 +24,7 @@ plugins:
   - gen-files:
       scripts:
         - docs/gen_pages.py
-  - literate-nav:
-      nav_file: SUMMARY.md
+  - awesome-pages
   - section-index
   - mkdocstrings:
       watch: [mkdocs_gen_files]
@@ -46,3 +45,13 @@ markdown_extensions:
   - def_list
   - toc:
       permalink: "#"
+
+nav:
+  - mkdocstrings-crystal: /mkdocstrings-crystal/
+  - section-index: /mkdocs-section-index/
+  - literate-nav: /mkdocs-literate-nav/
+  - gen-files:
+    - index.md
+    - API: api.md
+    - ...
+  - same-dir: /mkdocs-same-dir/
