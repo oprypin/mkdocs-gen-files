@@ -24,7 +24,7 @@ class FilesEditor:
     directory: str = None
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
 
-    def open(self, name: str, mode, buffering=-1, encoding="utf-8", *args, **kwargs) -> IO:
+    def open(self, name: str, mode, buffering=-1, encoding=None, *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
 
         This function, for all intents and purposes, is just an `open()` which pretends that it is
@@ -33,6 +33,8 @@ class FilesEditor:
         part of a MkDocs build, but they do become part of the site build.
         """
         path = self._get_file(name, new="w" in mode)
+        if encoding is None and "b" not in mode:
+            encoding = "utf-8"
         return open(path, mode, buffering, encoding, *args, **kwargs)
 
     def _get_file(self, name: str, new: bool = False) -> str:
