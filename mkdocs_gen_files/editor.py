@@ -3,7 +3,7 @@ import os
 import os.path
 import pathlib
 import shutil
-from typing import IO, ClassVar, Optional
+from typing import IO, ClassVar, Mapping, Optional
 
 import mkdocs.config
 import mkdocs.structure.files
@@ -23,6 +23,7 @@ class FilesEditor:
     """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
     directory: str = None
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
+    edit_paths: Mapping[str, Optional[str]]
 
     def open(self, name: str, mode, buffering=-1, encoding=None, *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
@@ -49,16 +50,22 @@ class FilesEditor:
         if new or normname not in self._files:
             os.makedirs(os.path.dirname(new_f.abs_src_path), exist_ok=True)
             self._files[normname] = new_f
+            self.edit_paths.setdefault(normname, None)
             return new_f.abs_src_path
 
         f = self._files[normname]
         if f.abs_src_path != new_f.abs_src_path:
             os.makedirs(os.path.dirname(new_f.abs_src_path), exist_ok=True)
             self._files[normname] = new_f
+            self.edit_paths.setdefault(normname, None)
             shutil.copyfile(f.abs_src_path, new_f.abs_src_path)
             return new_f.abs_src_path
 
         return f.abs_src_path
+
+    def set_edit_path(self, name: str, edit_name: Optional[str]) -> None:
+        """Choose a file path to use for the edit URI of this file."""
+        self.edit_paths[_normpath(name)] = edit_name and str(edit_name)
 
     def __init__(
         self,
@@ -71,6 +78,7 @@ class FilesEditor:
         if directory is None:
             directory = config["docs_dir"]
         self.directory = directory
+        self.edit_paths = {}
 
     _current: ClassVar[Optional["FilesEditor"]] = None
     _default: ClassVar[Optional["FilesEditor"]] = None
