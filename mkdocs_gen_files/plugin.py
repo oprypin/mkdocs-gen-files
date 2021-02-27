@@ -7,6 +7,8 @@ import mkdocs.config
 import mkdocs.config.config_options
 import mkdocs.plugins
 import mkdocs.structure.files
+import mkdocs.structure.pages
+import mkdocs.utils
 
 try:
     from mkdocs.exceptions import PluginError
@@ -35,7 +37,7 @@ class GenFilesPlugin(mkdocs.plugins.BasePlugin):
                     if e.code:
                         raise PluginError(f"Script {file_name!r} caused {e!r}")
 
-        self._edit_paths = ed.edit_paths
+        self._edit_paths = dict(ed.edit_paths)
         return ed.files
 
     def on_page_content(
