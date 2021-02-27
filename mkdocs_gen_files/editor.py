@@ -5,21 +5,21 @@ import pathlib
 import shutil
 from typing import IO, ClassVar, Mapping, Optional
 
-import mkdocs.config
-import mkdocs.structure.files
+from mkdocs.config import Config, load_config
+from mkdocs.structure.files import File, Files
 
 
 def _normpath(*path: str):
     return os.path.normpath(os.path.join(*path)).replace(os.sep, "/")
 
 
-def _file_sort_key(f: mkdocs.structure.files.File):
+def _file_sort_key(f: File):
     parts = pathlib.PurePath(f.src_path).parts
     return tuple(chr(i != len(parts) - 1) + chr(f.name != "index") + p for i, p in enumerate(parts))
 
 
 class FilesEditor:
-    config: mkdocs.config.Config = None
+    config: Config = None
     """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
     directory: str = None
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
@@ -39,7 +39,7 @@ class FilesEditor:
         return open(path, mode, buffering, encoding, *args, **kwargs)
 
     def _get_file(self, name: str, new: bool = False) -> str:
-        new_f = mkdocs.structure.files.File(
+        new_f = File(
             name,
             src_dir=self.directory,
             dest_dir=self.config["site_dir"],
@@ -67,12 +67,7 @@ class FilesEditor:
         """Choose a file path to use for the edit URI of this file."""
         self.edit_paths[_normpath(name)] = edit_name and str(edit_name)
 
-    def __init__(
-        self,
-        files: mkdocs.structure.files.Files,
-        config: mkdocs.config.Config,
-        directory: Optional[str] = None,
-    ):
+    def __init__(self, files: Files, config: Config, directory: Optional[str] = None):
         self._files = collections.ChainMap({}, {_normpath(f.src_path): f for f in files})
         self.config = config
         if directory is None:
@@ -98,9 +93,9 @@ class FilesEditor:
         if cls._current:
             return cls._current
         if not cls._default:
-            config = mkdocs.config.load_config("mkdocs.yml")
+            config = load_config("mkdocs.yml")
             config["plugins"].run_event("config", config)
-            cls._default = FilesEditor(mkdocs.structure.files.Files([]), config)
+            cls._default = FilesEditor(Files([]), config)
         return cls._default
 
     def __enter__(self):
@@ -111,10 +106,10 @@ class FilesEditor:
         type(self)._current = None
 
     @property
-    def files(self) -> mkdocs.structure.files.Files:
+    def files(self) -> Files:
         """Access the files as they currently are, as a MkDocs [Files][] collection.
 
         [Files]: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/structure/files.py
         """
         files = sorted(self._files.values(), key=_file_sort_key)
-        return mkdocs.structure.files.Files(files)
+        return Files(files)

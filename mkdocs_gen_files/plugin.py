@@ -3,12 +3,11 @@ import runpy
 import tempfile
 import urllib.parse
 
-import mkdocs.config
-import mkdocs.config.config_options
-import mkdocs.plugins
-import mkdocs.structure.files
-import mkdocs.structure.pages
 import mkdocs.utils
+from mkdocs.config import Config, config_options
+from mkdocs.plugins import BasePlugin
+from mkdocs.structure.files import Files
+from mkdocs.structure.pages import Page
 
 try:
     from mkdocs.exceptions import PluginError
@@ -21,12 +20,10 @@ log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 log.addFilter(mkdocs.utils.warning_filter)
 
 
-class GenFilesPlugin(mkdocs.plugins.BasePlugin):
-    config_scheme = (("scripts", mkdocs.config.config_options.Type(list)),)
+class GenFilesPlugin(BasePlugin):
+    config_scheme = (("scripts", config_options.Type(list)),)
 
-    def on_files(
-        self, files: mkdocs.structure.files.Files, config: mkdocs.config.Config
-    ) -> mkdocs.structure.files.Files:
+    def on_files(self, files: Files, config: Config) -> Files:
         self._dir = tempfile.TemporaryDirectory(prefix="mkdocs_gen_files_")
 
         with editor.FilesEditor(files, config, self._dir.name) as ed:
@@ -40,13 +37,7 @@ class GenFilesPlugin(mkdocs.plugins.BasePlugin):
         self._edit_paths = dict(ed.edit_paths)
         return ed.files
 
-    def on_page_content(
-        self,
-        html,
-        page: mkdocs.structure.pages.Page,
-        config: mkdocs.config.Config,
-        files: mkdocs.structure.files.Files,
-    ):
+    def on_page_content(self, html, page: Page, config: Config, files: Files):
         repo_url = config.get("repo_url", None)
         edit_uri = config.get("edit_uri", None)
 
@@ -59,7 +50,7 @@ class GenFilesPlugin(mkdocs.plugins.BasePlugin):
 
         return html
 
-    def on_post_build(self, config: mkdocs.config.Config):
+    def on_post_build(self, config: Config):
         self._dir.cleanup()
 
         if self._edit_paths:
