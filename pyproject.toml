@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mkdocs-gen-files"
-version = "0.3.0"
+version = "0.3.1"
 description = "MkDocs plugin to programmatically generate documentation pages during the build"
 authors = ["Oleh Prypin <oleh@pryp.in>"]
 license = "MIT"
