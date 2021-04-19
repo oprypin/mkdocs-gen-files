@@ -10,6 +10,7 @@ import logging
 import mkdocs.utils
 
 from .editor import FilesEditor
+from .nav import Nav
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 log.addFilter(mkdocs.utils.warning_filter)
