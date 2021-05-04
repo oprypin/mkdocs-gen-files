@@ -19,6 +19,9 @@ jobs:
             os: ubuntu-latest
           - python: 3.7
             os: windows-latest
+          - python: 3.7
+            os: ubuntu-latest
+            versions: minimal
     runs-on: ${{matrix.os}}
     steps:
       - name: Download source
@@ -28,6 +31,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{matrix.python}}
+      - name: Pin to lowest versions
+        if: matrix.versions == 'minimal'
+        run: |
+          sed -i -E 's/"(\^|>=)([0-9])/"==\2/' pyproject.toml
       - name: Cache packages
         uses: actions/cache@v2
         with:
@@ -46,5 +53,6 @@ jobs:
         run: |
           .tools/ci.sh with_groups
       - name: Check formatting
+        if: matrix.versions == null
         run: |
           git diff --exit-code
