@@ -27,7 +27,6 @@ jobs:
       - name: Download source
         uses: actions/checkout@v2
       - name: Install Python
-        id: python
         uses: actions/setup-python@v2
         with:
           python-version: ${{matrix.python}}
@@ -35,16 +34,10 @@ jobs:
         if: matrix.versions == 'minimal'
         run: |
           sed -i -E 's/"(\^|>=)([0-9])/"==\2/' pyproject.toml
-      - name: Cache packages
-        uses: actions/cache@v2
+      - name: Setup virtualenv
+        uses: syphar/restore-virtualenv@d0a933d92488e0505e012c3367e3f987a6276f5a
         with:
-          path: .venv
-          key: venv-${{matrix.os}}-py${{steps.python.outputs.python-version}}-${{hashFiles('pyproject.toml')}}
-          restore-keys: venv-${{matrix.os}}-py${{steps.python.outputs.python-version}}-
-      - name: Create virtualenv
-        run: |
-          python -m venv .venv
-          py=($(pwd)/.venv/*/python*); dirname $py >>$GITHUB_PATH
+          requirement_files: pyproject.toml
       - name: Install packages
         run: |
           python -m pip install -U pip'>=19'; pip install -U wheel
