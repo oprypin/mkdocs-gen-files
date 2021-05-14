@@ -16,8 +16,6 @@ theme:
 
 extra_css:
   - assets/style.css
-extra_javascript:
-  - assets/script.js
 
 plugins:
   - search
@@ -47,7 +45,6 @@ markdown_extensions:
       permalink: "#"
 
 nav:
-  - mkdocstrings-crystal: /mkdocstrings-crystal/
   - section-index: /mkdocs-section-index/
   - literate-nav: /mkdocs-literate-nav/
   - gen-files:
