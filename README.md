@@ -3,7 +3,7 @@
 **[Plugin][] for [MkDocs][] to programmatically generate documentation pages during the build**
 
 [![PyPI](https://img.shields.io/pypi/v/mkdocs-gen-files)](https://pypi.org/project/mkdocs-gen-files/)
-[![GitHub](https://img.shields.io/github/license/oprypin/mkdocs-gen-files)](LICENSE.md)
+[![GitHub](https://img.shields.io/github/license/oprypin/mkdocs-gen-files)](https://github.com/oprypin/mkdocs-gen-files/blob/master/LICENSE.md)
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/oprypin/mkdocs-gen-files/CI)](https://github.com/oprypin/mkdocs-gen-files/actions?query=event%3Apush+branch%3Amaster)
 
 ```shell

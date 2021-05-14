@@ -1,4 +1,4 @@
-site_name: MkDocs Plugins
+site_name: "mkdocs-gen-files"
 site_url: "https://oprypin.github.io/mkdocs-gen-files"
 repo_url: "https://github.com/oprypin/mkdocs-gen-files"
 edit_uri: blob/master/docs/

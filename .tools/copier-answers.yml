@@ -1,0 +1,13 @@
+_commit: a2c083636
+_src_path: gh:oprypin/py-library-template
+copyright_date: 2020
+min_python_version: '3.7'
+mkdocs: true
+project_description: MkDocs plugin to programmatically generate documentation pages during the build
+project_name: mkdocs-gen-files
+pytest: false
+python_distribution_name: mkdocs-gen-files
+python_import_name: mkdocs_gen_files
+pytype: true
+repository_name: oprypin/mkdocs-gen-files
+

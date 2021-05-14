@@ -6,6 +6,7 @@ authors = ["Oleh Prypin <oleh@pryp.in>"]
 license = "MIT"
 repository = "https://github.com/oprypin/mkdocs-gen-files"
 keywords = ["mkdocs", "mkdocs-plugin"]
+readme = "README.md"
 
 [tool.poetry.plugins."mkdocs.plugins"]
 gen-files = "mkdocs_gen_files.plugin:GenFilesPlugin"
