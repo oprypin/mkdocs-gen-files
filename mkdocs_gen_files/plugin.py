@@ -53,6 +53,7 @@ class GenFilesPlugin(BasePlugin):
     def on_post_build(self, config: Config):
         self._dir.cleanup()
 
-        if self._edit_paths:
+        unused_edit_paths = {k: v for k, v in self._edit_paths.items() if v is not None}
+        if unused_edit_paths:
             msg = "mkdocs_gen_files: These set_edit_path invocations went unused (the files don't exist): %r"
-            log.warning(msg, self._edit_paths)
+            log.warning(msg, unused_edit_paths)
