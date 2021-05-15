@@ -1,0 +1,4 @@
+output: |
+  * [\__init__](a.md)
+  * [\__init__.py](a.md)
+  * [\`hi`](a.md)

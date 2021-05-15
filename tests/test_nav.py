@@ -36,6 +36,14 @@ def test_nav_chaotic(golden):
     assert "".join(nav.build_literate_nav()) == golden.out["output"]
 
 
+def test_nav_special_chars(golden):
+    nav = Nav()
+    nav["__init__"] = "a.md"
+    nav["__init__.py"] = "a.md"
+    nav["`hi`"] = "a.md"
+    assert "".join(nav.build_literate_nav()) == golden.out["output"]
+
+
 def test_errors():
     nav = Nav()
     with pytest.raises(ValueError):
