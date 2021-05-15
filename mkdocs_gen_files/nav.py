@@ -10,11 +10,15 @@ class Nav:
         if isinstance(keys, str):
             keys = (keys,)
         cur = self._data
+        if not keys:
+            raise ValueError(f"The navigation path must not be empty (got {keys!r})")
         for key in keys:
             if not isinstance(key, str):
                 raise TypeError(
                     f"The navigation path must consist of strings, but got a {type(key)}"
                 )
+            if not key:
+                raise ValueError(f"The navigation name parts must not be empty (got {keys!r})")
             cur = cur.setdefault(key, {})
         cur[None] = value
 

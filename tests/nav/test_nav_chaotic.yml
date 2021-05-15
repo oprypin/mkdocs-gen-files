@@ -1,0 +1,7 @@
+output: |
+  * [Hello](hello/index.md)
+      * [World](hello/world.md)
+      * Beautiful
+          * [World](hello/world.md)
+  * [a](b/c/d/a.md)
+  * [b/c/d/a](a.md)

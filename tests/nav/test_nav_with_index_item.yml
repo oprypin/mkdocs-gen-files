@@ -1,0 +1,3 @@
+output: |
+  * [Hello](hello/index.md)
+      * [World](hello/world.md)
