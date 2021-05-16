@@ -8,6 +8,7 @@ theme:
   name: material
   features:
     - navigation.tabs
+    - toc.integrate
   icon:
     repo: fontawesome/brands/github
   palette:
@@ -22,8 +23,7 @@ plugins:
   - gen-files:
       scripts:
         - docs/gen_pages.py
-  - awesome-pages
-  - section-index
+  - literate-nav
   - mkdocstrings:
       watch: [mkdocs_gen_files]
       handlers:
@@ -48,7 +48,8 @@ nav:
   - section-index: /mkdocs-section-index/
   - literate-nav: /mkdocs-literate-nav/
   - gen-files:
-    - index.md
+    - Manual: index.md
     - API: api.md
-    - ...
+    - Extras: extras.md
+    - Sample: sample/
   - same-dir: /mkdocs-same-dir/
