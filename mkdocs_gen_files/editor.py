@@ -13,9 +13,11 @@ def _normpath(*path: str):
     return os.path.normpath(os.path.join(*path)).replace(os.sep, "/")
 
 
-def _file_sort_key(f: File):
+def file_sort_key(f: File):
     parts = pathlib.PurePath(f.src_path).parts
-    return tuple(chr(i != len(parts) - 1) + chr(f.name != "index") + p for i, p in enumerate(parts))
+    return tuple(
+        chr(f.name != "index" if i == len(parts) - 1 else 2) + p for i, p in enumerate(parts)
+    )
 
 
 class FilesEditor:
@@ -111,5 +113,5 @@ class FilesEditor:
 
         [Files]: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/structure/files.py
         """
-        files = sorted(self._files.values(), key=_file_sort_key)
+        files = sorted(self._files.values(), key=file_sort_key)
         return Files(files)
