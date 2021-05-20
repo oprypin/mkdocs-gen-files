@@ -16,5 +16,5 @@ def test_file_sort_key(use_directory_urls, names):
     files = [
         File(name, src_dir="", dest_dir="", use_directory_urls=use_directory_urls) for name in names
     ]
-    sorted_names = [f.src_path for f in sorted(files, key=editor.file_sort_key)]
+    sorted_names = [f.src_path.replace("\\", "/") for f in sorted(files, key=editor.file_sort_key)]
     assert sorted_names == names
