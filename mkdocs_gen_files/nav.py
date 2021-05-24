@@ -4,10 +4,26 @@ from typing import Iterable, Mapping, Optional, Tuple, Union
 
 
 class Nav:
+    """An object representing MkDocs navigation, consisting of files under nested sequences of
+    titles, which are treated like paths.
+    """
+
     def __init__(self):
         self._data = {}
 
     def __setitem__(self, keys: Union[str, Tuple[str, ...]], value: str):
+        """Add a link to a file (*value*) into the nav, under the sequence of titles (*keys*).
+
+        For example, writing `nav["Foo", "Bar"] = "foo/bar.md"` would mean creating a nav:
+        `{"Foo": {"Bar": "foo/bar.md"}}`.
+
+        Then, writing `nav["Foo", "Another"] = "test.md"` would merge with the existing sections
+        where possible:
+        `{"Foo": {"Bar": "foo/bar.md", "Another": "test.md"}}`.
+
+        *keys* here can be any non-empty sequence of strings, it's just that Python implicitly
+        creates a tuple from the comma-separated items in those square brackets.
+        """
         if isinstance(keys, str):
             keys = (keys,)
         cur = self._data

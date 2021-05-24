@@ -29,6 +29,7 @@ plugins:
       handlers:
         python:
           rendering:
+            show_root_heading: true
             show_signature_annotations: true
             show_source: false
 

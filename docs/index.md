@@ -1,6 +1,6 @@
 # mkdocs-gen-files
 
-[Plugin][] for [MkDocs][] to programmatically generate documentation pages during the build.
+**[Plugin][] for [MkDocs][] to programmatically generate documentation pages during the build**
 
 ## Installation
 
