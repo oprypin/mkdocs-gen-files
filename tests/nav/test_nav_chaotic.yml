@@ -1,3 +1,9 @@
+code: |
+  nav["Hello", "World"] = "hello/world.md"
+  nav["Hello"] = "hello/index.md"
+  nav["a"] = "b/c/d/a.md"
+  nav["b/c/d/a"] = "a.md"
+  nav["Hello", "Beautiful", "World"] = "hello/world.md"
 output: |
   * [Hello](hello/index.md)
       * [World](hello/world.md)
