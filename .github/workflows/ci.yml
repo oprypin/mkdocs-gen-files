@@ -41,7 +41,7 @@ jobs:
       - name: Install packages
         run: |
           python -m pip install -U pip'>=19'; pip install -U wheel
-          pip install -U . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml)
+          pip install -U --upgrade-strategy=eager . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml)
       - name: Test
         run: |
           .tools/ci.sh with_groups
