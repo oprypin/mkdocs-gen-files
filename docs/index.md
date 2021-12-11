@@ -25,20 +25,18 @@ plugins:
 
 Then create such a script **gen_pages.py** (this is relative to the root, *not* to the **docs** directory).
 
-???+ example "Basic gen_pages.py"
-    ```python
-    import mkdocs_gen_files
+```python title="Basic gen_pages.py"
+import mkdocs_gen_files
 
-    with mkdocs_gen_files.open("foo.md", "w") as f:
-        print("Hello, world!", file=f)
-    ```
+with mkdocs_gen_files.open("foo.md", "w") as f:
+    print("Hello, world!", file=f)
+```
 
 Or something a bit more interesting:
 
-???+ example "Interesting gen_pages.py"
-    ```python
-    --8<-- "docs/gen_pages.py"
-    ```
+```python title="Interesting gen_pages.py"
+--8<-- "docs/gen_pages.py"
+```
 
 This adds programmatically generated pages to our site. This example script has been applied to this very site, you can see [sample/99-bottles.md](sample/99-bottles.md) etc.
 
