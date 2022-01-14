@@ -1,4 +1,5 @@
 import logging
+import pathlib
 import runpy
 import tempfile
 import urllib.parse
@@ -41,8 +42,9 @@ class GenFilesPlugin(BasePlugin):
         repo_url = config.get("repo_url", None)
         edit_uri = config.get("edit_uri", None)
 
-        if page.file.src_path in self._edit_paths:
-            path = self._edit_paths.pop(page.file.src_path)
+        src_path = pathlib.Path(page.file.src_path)
+        if src_path in self._edit_paths:
+            path = self._edit_paths.pop(src_path)
             if repo_url and edit_uri:
                 page.edit_url = path and urllib.parse.urljoin(
                     urllib.parse.urljoin(repo_url, edit_uri), path
@@ -53,7 +55,7 @@ class GenFilesPlugin(BasePlugin):
     def on_post_build(self, config: Config):
         self._dir.cleanup()
 
-        unused_edit_paths = {k: v for k, v in self._edit_paths.items() if v is not None}
+        unused_edit_paths = {k: str(v) for k, v in self._edit_paths.items() if v}
         if unused_edit_paths:
             msg = "mkdocs_gen_files: These set_edit_path invocations went unused (the files don't exist): %r"
             log.warning(msg, unused_edit_paths)
