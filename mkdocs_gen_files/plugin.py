@@ -46,6 +46,10 @@ class GenFilesPlugin(BasePlugin):
         if src_path in self._edit_paths:
             path = self._edit_paths.pop(src_path)
             if repo_url and edit_uri:
+                # Ensure urljoin behavior is correct
+                if not edit_uri.startswith(("?", "#")) and not repo_url.endswith("/"):
+                    repo_url += "/"
+
                 page.edit_url = path and urllib.parse.urljoin(
                     urllib.parse.urljoin(repo_url, edit_uri), path
                 )
