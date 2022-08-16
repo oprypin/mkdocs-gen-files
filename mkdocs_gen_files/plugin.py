@@ -5,7 +5,7 @@ import tempfile
 import urllib.parse
 
 import mkdocs.utils
-from mkdocs.config import Config, config_options
+from mkdocs.config import Config
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import Files
 from mkdocs.structure.pages import Page
@@ -15,19 +15,20 @@ try:
 except ImportError:
     PluginError = SystemExit
 
-from . import editor
+from .config import ListOfFiles
+from .editor import FilesEditor
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 log.addFilter(mkdocs.utils.warning_filter)
 
 
 class GenFilesPlugin(BasePlugin):
-    config_scheme = (("scripts", config_options.Type(list)),)
+    config_scheme = (("scripts", ListOfFiles()),)
 
     def on_files(self, files: Files, config: Config) -> Files:
         self._dir = tempfile.TemporaryDirectory(prefix="mkdocs_gen_files_")
 
-        with editor.FilesEditor(files, config, self._dir.name) as ed:
+        with FilesEditor(files, config, self._dir.name) as ed:
             for file_name in self.config["scripts"]:
                 try:
                     runpy.run_path(file_name)
