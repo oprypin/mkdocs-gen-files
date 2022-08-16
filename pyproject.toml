@@ -14,6 +14,8 @@ gen-files = "mkdocs_gen_files.plugin:GenFilesPlugin"
 [tool.poetry.dependencies]
 python = "^3.7"
 mkdocs = "^1.0.3"
+#min jinja2 = ">=2.10.1"
+#min markupsafe = ">=2.0.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.1.2"
