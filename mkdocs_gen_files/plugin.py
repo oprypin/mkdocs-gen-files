@@ -15,7 +15,7 @@ try:
 except ImportError:
     PluginError = SystemExit
 
-from .config import ListOfFiles
+from .config_items import ListOfFiles
 from .editor import FilesEditor
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
@@ -23,7 +23,7 @@ log.addFilter(mkdocs.utils.warning_filter)
 
 
 class GenFilesPlugin(BasePlugin):
-    config_scheme = (("scripts", ListOfFiles()),)
+    config_scheme = (("scripts", ListOfFiles(required=True)),)
 
     def on_files(self, files: Files, config: Config) -> Files:
         self._dir = tempfile.TemporaryDirectory(prefix="mkdocs_gen_files_")
