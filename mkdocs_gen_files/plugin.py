@@ -13,7 +13,7 @@ from mkdocs.structure.pages import Page
 try:
     from mkdocs.exceptions import PluginError
 except ImportError:
-    PluginError = SystemExit
+    PluginError = SystemExit  # type: ignore
 
 from .config_items import ListOfFiles
 from .editor import FilesEditor
@@ -43,7 +43,7 @@ class GenFilesPlugin(BasePlugin):
         repo_url = config.get("repo_url", None)
         edit_uri = config.get("edit_uri", None)
 
-        src_path = pathlib.Path(page.file.src_path)
+        src_path = pathlib.PurePath(page.file.src_path).as_posix()
         if src_path in self._edit_paths:
             path = self._edit_paths.pop(src_path)
             if repo_url and edit_uri:

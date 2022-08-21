@@ -1,5 +1,3 @@
-import pathlib
-
 import pytest
 from mkdocs.structure.files import File
 
@@ -25,4 +23,4 @@ def test_file_sort_key(use_directory_urls, names):
 def test_edit_paths_consistency():
     ed = editor.FilesEditor([], {"docs_dir": "."})
     ed.set_edit_path("foo//bar", "zzz//xxx")
-    assert ed.edit_paths == {pathlib.Path("foo", "bar"): "zzz//xxx"}
+    assert ed.edit_paths == {"foo/bar": "zzz//xxx"}

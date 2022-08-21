@@ -3,7 +3,7 @@ import os
 import os.path
 import pathlib
 import shutil
-from typing import IO, ClassVar, Mapping, Optional
+from typing import IO, ClassVar, MutableMapping, Optional
 
 from mkdocs.config import Config, load_config
 from mkdocs.structure.files import File, Files
@@ -17,11 +17,11 @@ def file_sort_key(f: File):
 
 
 class FilesEditor:
-    config: Config = None
+    config: Config
     """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
-    directory: str = None
+    directory: str
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
-    edit_paths: Mapping[str, Optional[pathlib.Path]]
+    edit_paths: MutableMapping[str, Optional[str]]
 
     def open(self, name: str, mode, buffering=-1, encoding=None, *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
@@ -43,7 +43,7 @@ class FilesEditor:
             dest_dir=self.config["site_dir"],
             use_directory_urls=self.config["use_directory_urls"],
         )
-        normname = pathlib.Path(name)
+        normname = pathlib.PurePath(name).as_posix()
 
         if new or normname not in self._files:
             os.makedirs(os.path.dirname(new_f.abs_src_path), exist_ok=True)
@@ -63,10 +63,12 @@ class FilesEditor:
 
     def set_edit_path(self, name: str, edit_name: Optional[str]) -> None:
         """Choose a file path to use for the edit URI of this file."""
-        self.edit_paths[pathlib.Path(name)] = edit_name and str(edit_name)
+        self.edit_paths[pathlib.PurePath(name).as_posix()] = edit_name and str(edit_name)
 
     def __init__(self, files: Files, config: Config, directory: Optional[str] = None):
-        self._files = collections.ChainMap({}, {pathlib.Path(f.src_path): f for f in files})
+        self._files: MutableMapping[str, File] = collections.ChainMap(
+            {}, {pathlib.PurePath(f.src_path).as_posix(): f for f in files}
+        )
         self.config = config
         if directory is None:
             directory = config["docs_dir"]
