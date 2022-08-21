@@ -13,7 +13,7 @@ pip install mkdocs-gen-files
 
 ## Usage
 
-Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python scripts to execute):
+Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python scripts to execute, always relative to **mkdocs.yml**):
 
 ```yaml
 plugins:
@@ -60,4 +60,3 @@ Note that this happens before MkDocs reads any of the doc files, so all of the o
 All file modes are supported (even e.g. `ab+`). You could even open a file to read it, replace something in it, and write it back anew. Though at that point you may be better served by the ["macros" plugin](https://github.com/fralau/mkdocs_macros_plugin/).
 
 Note that this function is separate from the top-level built-in `open()`, which is unaffected and can still be used normally, relative to the current working directory (which is *not* changed to **./docs/**, instead it's just the directory that you ran `mkdocs` from).
-

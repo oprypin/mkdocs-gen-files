@@ -18,7 +18,7 @@ pip install mkdocs-gen-files
 
 ## Usage
 
-Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python scripts to execute):
+Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python scripts to execute, always relative to **mkdocs.yml**):
 
 ```yaml
 plugins:
@@ -28,7 +28,7 @@ plugins:
         - gen_pages.py  # or any other name or path
 ```
 
-Then create such a script **gen_pages.py** (this is relative to the root, *not* to the *docs* directory).
+Then create such a script **gen_pages.py** (this is relative to the root, *not* to the **docs** directory).
 
 ```python
 import mkdocs_gen_files
