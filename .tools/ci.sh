@@ -12,5 +12,5 @@ with_groups() {
 "$@" isort -q mkdocs_gen_files tests
 "$@" black -q mkdocs_gen_files tests
 "$@" pytest -q
-python -c 'import sys, os; sys.exit((3,8) <= sys.version_info < (3,10) and os.name == "posix")' ||
+python -c 'import sys, os; sys.exit((3,8) <= sys.version_info < (3,11) and os.name == "posix")' ||
 "$@" pytype mkdocs_gen_files
