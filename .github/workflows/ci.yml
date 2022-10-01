@@ -8,7 +8,7 @@ defaults:
   run:
     shell: bash
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -37,19 +37,38 @@ jobs:
       - name: Pin to lowest versions
         if: matrix.versions == 'minimal'
         run: |
-          sed -i -E 's/#min //; s/"(\^|>=)([0-9])/"==\2/' pyproject.toml
-      - name: Setup virtualenv
-        uses: syphar/restore-virtualenv@d0a933d92488e0505e012c3367e3f987a6276f5a
+          sed -i -E 's/#min //; s/" >=([0-9])/"== \1/' pyproject.toml
+      - name: Install Hatch
+        run: |
+          pip install hatch
+      - name: Install dependencies
+        run: |
+          hatch run test:pip freeze
+      - name: Run tests
+        run: |
+          hatch run test:test
+  style:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download source
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
         with:
-          requirement_files: pyproject.toml
-      - name: Install packages
+          python-version: '3.10'
+      - name: Install Hatch
         run: |
-          python -m pip install -U pip'>=19'; pip install -U wheel
-          pip install -U --upgrade-strategy=eager . $(awk '/^$/ {p = 0}  ! /${{runner.os}}/ { if (p) {print $1} }  /dev-dependencies/ {p = 1}' pyproject.toml)
-      - name: Test
+          pip install hatch
+      - name: Install dependencies
         run: |
-          .tools/ci.sh with_groups
+          hatch run style:pip freeze
       - name: Check formatting
-        if: matrix.versions == null
         run: |
+          hatch run style:format
           git diff --exit-code
+      - name: Install dependencies
+        run: |
+          hatch run types:pip freeze
+      - name: Check types
+        run: |
+          hatch run types:check

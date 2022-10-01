@@ -5,11 +5,11 @@ cd "$(dirname "$0")/.."
 
 git diff --staged --quiet
 git diff --quiet HEAD pyproject.toml
-poetry version "$1"
-poetry install
-poetry build
-git add pyproject.toml
+rm -rf dist
+hatch version "$1"
+hatch build
+git add */__init__.py
 git commit -m "v$1"
 git tag -a -m "" "v$1"
-poetry publish
-echo git push origin master --tags
+hatch publish
+git push origin master --tags
