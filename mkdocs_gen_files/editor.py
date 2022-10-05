@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 import collections
 import os
 import os.path
 import pathlib
 import shutil
-from typing import IO, ClassVar, MutableMapping, Optional
+from typing import IO, ClassVar, MutableMapping
 
 from mkdocs.config import Config, load_config
 from mkdocs.structure.files import File, Files
@@ -21,7 +23,7 @@ class FilesEditor:
     """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
     directory: str
     """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
-    edit_paths: MutableMapping[str, Optional[str]]
+    edit_paths: MutableMapping[str, str | None]
 
     def open(self, name: str, mode, buffering=-1, encoding=None, *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
@@ -61,11 +63,11 @@ class FilesEditor:
 
         return f.abs_src_path
 
-    def set_edit_path(self, name: str, edit_name: Optional[str]) -> None:
+    def set_edit_path(self, name: str, edit_name: str | None) -> None:
         """Choose a file path to use for the edit URI of this file."""
         self.edit_paths[pathlib.PurePath(name).as_posix()] = edit_name and str(edit_name)
 
-    def __init__(self, files: Files, config: Config, directory: Optional[str] = None):
+    def __init__(self, files: Files, config: Config, directory: str | None = None):
         self._files: MutableMapping[str, File] = collections.ChainMap(
             {}, {pathlib.PurePath(f.src_path).as_posix(): f for f in files}
         )
@@ -75,11 +77,11 @@ class FilesEditor:
         self.directory = directory
         self.edit_paths = {}
 
-    _current: ClassVar[Optional["FilesEditor"]] = None
-    _default: ClassVar[Optional["FilesEditor"]] = None
+    _current: ClassVar[FilesEditor | None] = None
+    _default: ClassVar[FilesEditor | None] = None
 
     @classmethod
-    def current(cls) -> "FilesEditor":
+    def current(cls) -> FilesEditor:
         """The instance of FilesEditor associated with the currently ongoing MkDocs build.
 
         If used as part of a MkDocs build (*gen-files* plugin), it's an instance using virtual

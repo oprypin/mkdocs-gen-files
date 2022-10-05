@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import dataclasses
 import os
-from typing import Iterable, Mapping, Optional, Tuple, Union
+from typing import Iterable, Mapping
 
 
 class Nav:
@@ -11,7 +13,7 @@ class Nav:
     def __init__(self):
         self._data = {}
 
-    def __setitem__(self, keys: Union[str, Tuple[str, ...]], value: str):
+    def __setitem__(self, keys: str | tuple[str, ...], value: str):
         """Add a link to a file (*value*) into the nav, under the sequence of titles (*keys*).
 
         For example, writing `nav["Foo", "Bar"] = "foo/bar.md"` would mean creating a nav:
@@ -43,7 +45,7 @@ class Nav:
     class Item:
         level: int
         title: str
-        filename: Optional[str]
+        filename: str | None
 
     def items(self) -> Iterable[Item]:
         return self._items(self._data, 0)
@@ -57,7 +59,7 @@ class Nav:
 
     _markdown_escape_chars = tuple("!#()*+-[\\]_`{}")
 
-    def build_literate_nav(self, indentation: Union[int, str] = "") -> Iterable[str]:
+    def build_literate_nav(self, indentation: int | str = "") -> Iterable[str]:
         if isinstance(indentation, int):
             indentation = " " * indentation
         for item in self.items():
