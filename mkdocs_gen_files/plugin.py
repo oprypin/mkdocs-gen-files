@@ -6,7 +6,6 @@ import runpy
 import tempfile
 import urllib.parse
 
-import mkdocs.utils
 from mkdocs.config import Config
 from mkdocs.plugins import BasePlugin
 from mkdocs.structure.files import Files
@@ -21,7 +20,6 @@ from .config_items import ListOfFiles
 from .editor import FilesEditor
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
-log.addFilter(mkdocs.utils.warning_filter)
 
 
 class GenFilesPlugin(BasePlugin):

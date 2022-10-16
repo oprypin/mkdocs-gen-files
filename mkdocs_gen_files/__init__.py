@@ -8,15 +8,12 @@ from __future__ import annotations
 
 import logging
 
-import mkdocs.utils
-
 from .editor import FilesEditor
 from .nav import Nav  # noqa
 
 __version__ = "0.4.0"
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
-log.addFilter(mkdocs.utils.warning_filter)
 
 
 def __getattr__(name: str):
