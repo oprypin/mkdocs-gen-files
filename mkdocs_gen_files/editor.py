@@ -45,7 +45,7 @@ class FilesEditor:
             dest_dir=self.config["site_dir"],
             use_directory_urls=self.config["use_directory_urls"],
         )
-        new_f.generated_by = "mkdocs-gen-files"
+        new_f.generated_by = "mkdocs-gen-files" # type: ignore
         normname = pathlib.PurePath(name).as_posix()
 
         if new or normname not in self._files:
