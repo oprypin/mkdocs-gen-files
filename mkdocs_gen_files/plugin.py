@@ -19,6 +19,11 @@ except ImportError:
 from .config_items import ListOfFiles
 from .editor import FilesEditor
 
+try:
+    from mkdocs.plugins import event_priority
+except ImportError:
+    event_priority = lambda priority: lambda f: f  # No-op fallback
+
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 
 
@@ -57,6 +62,7 @@ class GenFilesPlugin(BasePlugin):
 
         return html
 
+    @event_priority(-100)
     def on_post_build(self, config: Config):
         self._dir.cleanup()
 
