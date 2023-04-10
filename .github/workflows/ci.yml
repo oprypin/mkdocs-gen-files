@@ -37,7 +37,7 @@ jobs:
       - name: Pin to lowest versions
         if: matrix.versions == 'minimal'
         run: |
-          sed -i -E 's/#min //; s/" >=([0-9])/"== \1/' pyproject.toml
+          sed -i -E 's/#min //; s/\b >=([0-9])/ ==\1/' pyproject.toml
       - name: Install Hatch
         run: |
           pip install hatch
