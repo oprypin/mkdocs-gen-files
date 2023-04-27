@@ -18,6 +18,9 @@ theme:
 extra_css:
   - assets/style.css
 
+watch:
+  - mkdocs_gen_files
+
 plugins:
   - search
   - gen-files:
@@ -25,10 +28,9 @@ plugins:
         - docs/gen_pages.py
   - literate-nav
   - mkdocstrings:
-      watch: [mkdocs_gen_files]
       handlers:
         python:
-          rendering:
+          options:
             show_root_heading: true
             show_signature_annotations: true
             show_source: false

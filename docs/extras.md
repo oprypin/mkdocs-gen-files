@@ -3,6 +3,6 @@
 ### Reference: `mkdocs_gen_files.Nav`
 
 #### ::: mkdocs_gen_files.Nav
-    rendering:
+    options:
         show_root_heading: false
         show_root_toc_entry: false
