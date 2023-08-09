@@ -41,13 +41,8 @@ class Nav:
             cur = cur.setdefault(key, {})
         cur[None] = os.fspath(value)
 
-    @dataclasses.dataclass
-    class Item:
-        level: int
-        title: str
-        filename: str | None
-
     def items(self) -> Iterable[Item]:
+        """Allows viewing the nav as a flattened sequence."""
         return self._items(self._data, 0)
 
     @classmethod
@@ -60,6 +55,10 @@ class Nav:
     _markdown_escape_chars = tuple("!#()*+-[\\]_`{}")
 
     def build_literate_nav(self, indentation: int | str = "") -> Iterable[str]:
+        """Builds a file suitable for https://github.com/oprypin/mkdocs-literate-nav, as a sequence of lines to be written into a file.
+
+        For an example, see https://mkdocstrings.github.io/recipes/#generate-a-literate-navigation-file
+        """
         if isinstance(indentation, int):
             indentation = " " * indentation
         for item in self.items():
@@ -69,3 +68,14 @@ class Nav:
             if item.filename is not None:
                 line = f"[{line}]({item.filename})"
             yield indentation + "    " * item.level + "* " + line + "\n"
+
+    @dataclasses.dataclass
+    class Item:
+        """An item in the navigation."""
+
+        level: int
+        """The nestedness level of the item. 0 is the topmost level."""
+        title: str
+        """The title of the item."""
+        filename: str | None
+        """The path the item links to (or it can be a section index without a link)."""
