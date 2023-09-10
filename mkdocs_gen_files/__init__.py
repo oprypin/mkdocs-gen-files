@@ -9,7 +9,7 @@ from __future__ import annotations
 import logging
 
 from .editor import FilesEditor
-from .nav import Nav  # noqa
+from .nav import Nav  # noqa: F401 - re-export
 
 __version__ = "0.5.0"
 

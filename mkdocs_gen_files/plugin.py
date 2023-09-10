@@ -5,24 +5,34 @@ import pathlib
 import runpy
 import tempfile
 import urllib.parse
+from typing import Callable
 
-from mkdocs.config import Config
 from mkdocs.plugins import BasePlugin
-from mkdocs.structure.files import Files
-from mkdocs.structure.pages import Page
 
 try:
     from mkdocs.exceptions import PluginError
 except ImportError:
     PluginError = SystemExit  # type: ignore
 
+from typing import TYPE_CHECKING, TypeVar
+
 from .config_items import ListOfFiles
 from .editor import FilesEditor
+
+if TYPE_CHECKING:
+    from mkdocs.config import Config
+    from mkdocs.structure.files import Files
+    from mkdocs.structure.pages import Page
+
+    T = TypeVar("T")
 
 try:
     from mkdocs.plugins import event_priority
 except ImportError:
-    event_priority = lambda priority: lambda f: f  # No-op fallback
+
+    def event_priority(priority: float) -> Callable[[T], T]:
+        return lambda f: f  # No-op fallback
+
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 

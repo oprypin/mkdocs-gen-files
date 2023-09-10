@@ -18,11 +18,11 @@ class ListOfItems(OptionallyRequired):
             raise ValidationError(f"Expected a list of items, but a {type(value)} was given.")
 
         result = []
-        for item in value:
+        for _ in value:
             self.option_type.pre_validation(self._config, self._key_name)
         for item in value:
             result.append(self.option_type.validate(item))
-        for item in value:
+        for _ in value:
             self.option_type.post_validation(self._config, self._key_name)
         return result
 
