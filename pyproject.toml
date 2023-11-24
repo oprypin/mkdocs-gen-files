@@ -50,6 +50,12 @@ path = "mkdocs_gen_files/__init__.py"
 [tool.hatch.build.targets.sdist]
 include = ["/mkdocs_gen_files", "/tests"]
 
+[tool.hatch.env]
+requires = [
+    "hatch-mkdocs",
+    "hatch-pip-compile",
+]
+
 [tool.hatch.envs.default.scripts]
 all = [
     "hatch run style:fix",
@@ -90,16 +96,10 @@ format = [
     "ruff format -q mkdocs_gen_files tests",
 ]
 
+[tool.hatch.env.collectors.mkdocs.docs]
 [tool.hatch.envs.docs]
-detached = true
-dependencies = [
-    "mkdocs >=1.5",
-    "mkdocs-material >=7.3.6",
-    "mkdocstrings-python >=0.7.1",
-    "mkdocs-gen-files >=0.3.2",
-    "mkdocs-literate-nav >=0.4.0",
-    "pymdown-extensions >=9.0",
-]
+type = "pip-compile"
+pip-compile-hashes = false
 
 [tool.ruff]
 line-length = 100
