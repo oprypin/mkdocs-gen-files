@@ -1,4 +1,5 @@
 site_name: "mkdocs-gen-files"
+site_description: "MkDocs plugin to programmatically generate documentation pages during the build"
 site_url: "https://oprypin.github.io/mkdocs-gen-files"
 repo_url: "https://github.com/oprypin/mkdocs-gen-files"
 edit_uri: blob/master/docs/
@@ -37,10 +38,11 @@ plugins:
             show_source: false
 
 markdown_extensions:
+  - pymdownx.details
   - pymdownx.highlight
   - pymdownx.magiclink
+  - pymdownx.saneheaders
   - pymdownx.superfences
-  - pymdownx.details
   - pymdownx.snippets:
       check_paths: true
       base_path:
