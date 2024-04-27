@@ -49,6 +49,7 @@ class FilesEditor:
             use_directory_urls=self.config.use_directory_urls,
         )
         new_f.generated_by = "mkdocs-gen-files"  # type: ignore[attr-defined]
+        assert new_f.abs_src_path is not None
         normname = pathlib.PurePath(name).as_posix()
 
         if new or normname not in self._files:
@@ -62,7 +63,10 @@ class FilesEditor:
             os.makedirs(os.path.dirname(new_f.abs_src_path), exist_ok=True)
             self._files[normname] = new_f
             self.edit_paths.setdefault(normname, None)
-            shutil.copyfile(f.abs_src_path, new_f.abs_src_path)
+            if f.abs_src_path:
+                shutil.copyfile(f.abs_src_path, new_f.abs_src_path)
+            else:  # MkDocs 1.6+
+                pathlib.Path(new_f.abs_src_path).write_bytes(f.content_bytes)
             return new_f.abs_src_path
 
         return f.abs_src_path
