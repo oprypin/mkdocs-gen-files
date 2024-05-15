@@ -29,8 +29,6 @@ class Nav:
         if isinstance(keys, str):
             keys = (keys,)
         cur = self._data
-        if not keys:
-            raise ValueError(f"The navigation path must not be empty (got {keys!r})")
         for key in keys:
             if not isinstance(key, str):
                 raise TypeError(
@@ -43,7 +41,9 @@ class Nav:
 
     def items(self) -> Iterable[Item]:
         """Allows viewing the nav as a flattened sequence."""
-        return self._items(self._data, 0)
+        if None in self._data:
+            yield self.Item(level=0, title="", filename=self._data[None])
+        yield from self._items(self._data, 0)
 
     @classmethod
     def _items(cls, data: Mapping, level: int) -> Iterable[Item]:

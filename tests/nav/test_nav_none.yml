@@ -1,0 +1,8 @@
+code: |
+  nav[()] = "index.md"
+  nav["a"] = "a/index.md"
+  nav["a", "b"] = "a/b.md"
+output: |
+  * [](index.md)
+  * [a](a/index.md)
+      * [b](a/b.md)
