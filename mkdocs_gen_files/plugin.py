@@ -2,12 +2,15 @@ from __future__ import annotations
 
 import logging
 import runpy
+import shlex
+import sys
 import tempfile
 import urllib.parse
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, Union
 
 from mkdocs.config import Config
 from mkdocs.config import config_options as opt
+from mkdocs.config.base import BaseConfigOption, ValidationError
 from mkdocs.exceptions import PluginError
 from mkdocs.plugins import BasePlugin, event_priority
 
@@ -24,8 +27,29 @@ if TYPE_CHECKING:
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 
 
+class _ScriptValue(Config):
+    """Config value to store a path to a script to execute and its arguments"""
+
+    path = opt.File(exists=True)
+    args = opt.Optional(opt.Type(str))
+
+
+class _Script(BaseConfigOption[Union[_ScriptValue, str]]):
+    """Config option that stores either a `_ScriptValue` or `str`, where the
+    latter contains a path to a script to execute"""
+
+    def run_validation(self, value: object) -> dict[Any, Any] | str:
+        if not isinstance(value, (dict, str)):
+            raise ValidationError(
+                f"Invalid configuration.  Expected a dict or str.  Found '{type(value)}'"
+            )
+        return value
+
+
 class PluginConfig(Config):
-    scripts = opt.ListOfItems(opt.File(exists=True))
+    """Base plugin configuration"""
+
+    scripts = opt.ListOfItems(_Script())
 
 
 class GenFilesPlugin(BasePlugin[PluginConfig]):
@@ -33,12 +57,33 @@ class GenFilesPlugin(BasePlugin[PluginConfig]):
         self._dir = tempfile.TemporaryDirectory(prefix="mkdocs_gen_files_")
 
         with FilesEditor(files, config, self._dir.name) as ed:
-            for file_name in self.config.scripts:
+            for sub_config in self.config.scripts:
+                """Parse the script configuration.  The sub_config may just be a
+                string, in which case it's treated as a path ane executed
+                directly.  Otherwise, the sub_config is a dictionary, with keys
+                path and optionally argv, where path is the path to the executable,
+                and argv is the arguments to the executable.  The arguments to the
+                scripts are _always_ overridden, i.e. sys.argv is always modified.
+                """
+                # get the path to the executable and optionally arguments
+                argv: list[str] = []
+                if isinstance(sub_config, str):  # treat it as a path
+                    file_name = sub_config
+                else:  # treat it as a `_ScriptValue`
+                    file_name = sub_config["path"]
+                    if "argv" in sub_config:  # optionally add argv
+                        argv = shlex.split(sub_config["argv"])
+                # override sys.argv, but save it for later to restore
+                old_sys_argv = sys.argv
+                sys.argv = [file_name, *argv]
+                # run the script
                 try:
                     runpy.run_path(file_name)
                 except SystemExit as e:
                     if e.code:
                         raise PluginError(f"Script {file_name!r} caused {e!r}")
+                finally:  # restore sys.argv
+                    sys.argv = old_sys_argv
 
         self._edit_paths = dict(ed.edit_paths)
         return ed.files
