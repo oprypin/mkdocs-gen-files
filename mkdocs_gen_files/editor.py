@@ -5,7 +5,8 @@ import os
 import os.path
 import pathlib
 import shutil
-from typing import IO, TYPE_CHECKING, ClassVar, MutableMapping
+from collections.abc import MutableMapping
+from typing import IO, TYPE_CHECKING, ClassVar
 
 from mkdocs.config import load_config
 from mkdocs.structure.files import File, Files
@@ -41,7 +42,7 @@ class FilesEditor:
             encoding = "utf-8"
         return open(path, mode, buffering, encoding, *args, **kwargs)
 
-    def _get_file(self, name: str, new: bool = False) -> str:
+    def _get_file(self, name: str, *, new: bool = False) -> str:
         new_f = File(
             name,
             src_dir=self.directory,

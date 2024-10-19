@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import dataclasses
 import os
-from typing import Iterable, Mapping
+from collections.abc import Iterable, Mapping
 
 
 class Nav:
