@@ -40,6 +40,19 @@ Or something a bit more interesting:
 
 This adds programmatically generated pages to our site. This example script has been applied to this very site, you can see [sample/99-bottles.md](sample/99-bottles.md) etc.
 
+### Specifying Arguments
+
+You may specify arguments to the script by specifying the path to the script with `path` and the arguments with `args`.
+
+```yaml
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - path: gen_pages.py  # or any other name or path
+          args: "--foo bar"  # the full set of arguments
+```
+
 ### Use cases
 
 You might be wondering, what's the point of this?
