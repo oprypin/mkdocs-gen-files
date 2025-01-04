@@ -4,7 +4,7 @@ import logging
 import runpy
 import tempfile
 import urllib.parse
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING
 
 from mkdocs.config import Config
 from mkdocs.config import config_options as opt
@@ -17,8 +17,6 @@ if TYPE_CHECKING:
     from mkdocs.config.defaults import MkDocsConfig
     from mkdocs.structure.files import Files
     from mkdocs.structure.pages import Page
-
-    T = TypeVar("T")
 
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
