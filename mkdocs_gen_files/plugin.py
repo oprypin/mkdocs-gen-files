@@ -33,7 +33,7 @@ class GenFilesPlugin(BasePlugin[PluginConfig]):
         with FilesEditor(files, config, self._dir.name) as ed:
             for file_name in self.config.scripts:
                 try:
-                    runpy.run_path(file_name)
+                    runpy.run_path(file_name, run_name="__main__")
                 except SystemExit as e:
                     if e.code:
                         raise PluginError(f"Script {file_name!r} caused {e!r}")
