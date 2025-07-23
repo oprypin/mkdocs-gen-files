@@ -104,7 +104,7 @@ class FilesEditor:
         if cls._current:
             return cls._current
         if not cls._default:
-            config = load_config("mkdocs.yml")
+            config = load_config()
             config.plugins.run_event("config", config)
             cls._default = FilesEditor(Files([]), config)
         return cls._default
