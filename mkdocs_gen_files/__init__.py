@@ -4,6 +4,7 @@ Just `import mkdocs_gen_files`.
 
 Then `mkdocs_gen_files.open()` is the same as `mkdocs_gen_files.editor.FilesEditor.current.open()`.
 """
+
 from __future__ import annotations
 
 import logging
@@ -11,7 +12,7 @@ import logging
 from .editor import FilesEditor
 from .nav import Nav  # noqa: F401 - re-export
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 log = logging.getLogger(f"mkdocs.plugins.{__name__}")
 
