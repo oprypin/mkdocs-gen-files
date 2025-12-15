@@ -36,7 +36,8 @@ class _Script(BaseConfigOption[Union[_ScriptValue, str]]):
     """Config option that stores either a `_ScriptValue` or `str`, where the
     latter contains a path to a script to execute"""
 
-    def run_validation(self, value: object) -> dict[Any, Any] | str:
+    @staticmethod
+    def run_validation(value: object) -> dict[Any, Any] | str:
         if not isinstance(value, (dict, str)):
             raise ValidationError(
                 f"Invalid configuration.  Expected a dict or str.  Found '{type(value)}'"
