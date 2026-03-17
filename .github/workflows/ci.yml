@@ -9,17 +9,18 @@ defaults:
     shell: bash
 jobs:
   test:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     strategy:
       fail-fast: false
       matrix:
         include:
-          - python: '^3.13'
+          - python: '^3.14'
             os: ubuntu-latest
-          - python: '3.13'
+          - python: '3.14'
             os: macos-latest
-          - python: '3.12'
+          - python: '3.13'
             os: windows-latest
-          - python: '3.11'
+          - python: '3.12'
             os: ubuntu-latest
           - python: '3.11'
             os: macos-latest
@@ -31,9 +32,9 @@ jobs:
     runs-on: ${{matrix.os}}
     steps:
       - name: Download source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{matrix.python}}
       - name: Pin to lowest versions
@@ -50,14 +51,15 @@ jobs:
         run: |
           hatch run test:test
   style:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
       - name: Download source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.12'
+          python-version: '3.13'
       - name: Install Hatch
         run: |
           pip install hatch
