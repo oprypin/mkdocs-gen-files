@@ -20,7 +20,7 @@ jobs:
       - name: Build site
         run: properdocs build --strict
       - name: Upload to GitHub Pages
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: site
   deploy:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
