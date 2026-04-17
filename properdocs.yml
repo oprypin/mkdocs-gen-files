@@ -6,7 +6,7 @@ edit_uri: blob/master/docs/
 use_directory_urls: false
 
 theme:
-  name: material
+  name: materialx
   features:
     - content.action.edit
     - navigation.tabs
