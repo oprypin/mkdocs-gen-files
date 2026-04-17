@@ -6,7 +6,7 @@ from collections.abc import Iterable, Mapping
 
 
 class Nav:
-    """An object representing MkDocs navigation, consisting of files under nested sequences of
+    """An object representing ProperDocs navigation, consisting of files under nested sequences of
     titles, which are treated like paths.
     """
 
