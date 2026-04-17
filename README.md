@@ -1,6 +1,6 @@
 # mkdocs-gen-files
 
-**[Plugin][] for [MkDocs][] to programmatically generate documentation pages during the build**
+**[Plugin][] for [ProperDocs][] to programmatically generate documentation pages during the build**
 
 [![PyPI](https://img.shields.io/pypi/v/mkdocs-gen-files)](https://pypi.org/project/mkdocs-gen-files/)
 [![License](https://img.shields.io/github/license/oprypin/mkdocs-gen-files)](https://github.com/oprypin/mkdocs-gen-files/blob/master/LICENSE.md)
@@ -12,13 +12,13 @@ pip install mkdocs-gen-files
 
 **Continue to the [documentation site][].**
 
-[mkdocs]: https://www.mkdocs.org/
-[plugin]: https://www.mkdocs.org/user-guide/plugins/
+[properdocs]: https://github.com/ProperDocs/properdocs#readme
+[plugin]: https://properdocs.org/user-guide/plugins/
 [documentation site]: https://oprypin.github.io/mkdocs-gen-files
 
 ## Usage
 
-Activate the plugin in **mkdocs.yml** (`scripts` is a required list of Python scripts to execute, always relative to **mkdocs.yml**):
+Activate the plugin in **properdocs.yml** (`scripts` is a required list of Python scripts to execute, always relative to **properdocs.yml**):
 
 ```yaml
 plugins:
@@ -37,6 +37,6 @@ with mkdocs_gen_files.open("foo.md", "w") as f:
     print("Hello, world!", file=f)
 ```
 
-This added a programmatically generated page to our site. That is, the document doesn't actually appear in our source files, it only *virtually* becomes part of the site to be built by MkDocs.
+This added a programmatically generated page to our site. That is, the document doesn't actually appear in our source files, it only *virtually* becomes part of the site to be built by ProperDocs.
 
 **Continue to the [documentation site][].**

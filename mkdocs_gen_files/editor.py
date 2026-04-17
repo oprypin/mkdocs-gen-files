@@ -24,18 +24,18 @@ def file_sort_key(f: File):
 
 class FilesEditor:
     config: MkDocsConfig
-    """The current MkDocs [config](https://www.mkdocs.org/user-guide/plugins/#config)."""
+    """The current ProperDocs [config](https://properdocs.org/user-guide/plugins/#config)."""
     directory: str
-    """The base directory for `open()` ([docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir))."""
+    """The base directory for `open()` ([docs_dir](https://properdocs.org/user-guide/configuration/#docs_dir))."""
     edit_paths: MutableMapping[str, str | None]
 
     def open(self, name: str, mode, buffering=-1, encoding=None, *args, **kwargs) -> IO:
         """Open a file under `docs_dir` virtually.
 
         This function, for all intents and purposes, is just an `open()` which pretends that it is
-        running under [docs_dir](https://www.mkdocs.org/user-guide/configuration/#docs_dir)
+        running under [docs_dir](https://properdocs.org/user-guide/configuration/#docs_dir)
         (*docs/* by default), but write operations don't affect the actual files when running as
-        part of a MkDocs build, but they do become part of the site build.
+        part of a ProperDocs build, but they do become part of the site build.
         """
         path = self._get_file(name, new="w" in mode)
         if encoding is None and "b" not in mode:
@@ -91,12 +91,12 @@ class FilesEditor:
 
     @classmethod
     def current(cls) -> FilesEditor:
-        """The instance of FilesEditor associated with the currently ongoing MkDocs build.
+        """The instance of FilesEditor associated with the currently ongoing ProperDocs build.
 
-        If used as part of a MkDocs build (*gen-files* plugin), it's an instance using virtual
+        If used as part of a ProperDocs build (*gen-files* plugin), it's an instance using virtual
         files that feed back into the build.
 
-        If not, this still tries to load the MkDocs config to find out the *docs_dir*, and then
+        If not, this still tries to load the ProperDocs config to find out the *docs_dir*, and then
         actually performs any file writes that happen via `.open()`.
 
         This is global (not thread-safe).
@@ -118,9 +118,9 @@ class FilesEditor:
 
     @property
     def files(self) -> Files:
-        """Access the files as they currently are, as a MkDocs [Files][] collection.
+        """Access the files as they currently are, as a ProperDocs [Files][] collection.
 
-        [Files]: https://github.com/mkdocs/mkdocs/blob/master/mkdocs/structure/files.py
+        [Files]: https://github.com/ProperDocs/properdocs/blob/master/properdocs/structure/files.py
         """
         files = sorted(self._files.values(), key=file_sort_key)
         return Files(files)
